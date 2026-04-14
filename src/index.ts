@@ -21,4 +21,10 @@ app.get("/status/:service", async (c) => {
   return await stub.fetch(c.req.raw);
 });
 
+app.get("/", (c) => {
+  return c.text(
+    "Aura-Ops Engine is running. Use /ingest/:service or /status/:service",
+  );
+});
+
 export default app;

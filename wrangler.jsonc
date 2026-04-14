@@ -17,7 +17,7 @@
   "migrations": [
     {
       "tag": "v1",
-      "new_classes": ["IncidentDO"],
+      "new_sqlite_classes": ["IncidentDO"],
     },
   ],
 }
