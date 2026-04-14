@@ -5,7 +5,8 @@
 ---
 
 ## 🏗️ Architecture
-Aura-Ops avoids the "chat with PDF" trap by treating AI as a *component* of a distributed system.
+
+Aura-Ops avoids the "chat with PDF" trap by treating AI as a _component_ of a distributed system.
 
 ```mermaid
 graph TD
@@ -17,9 +18,10 @@ graph TD
 ```
 
 ### Core Innovations
-*   **Atomic State Coordination:** Uses **Durable Objects** to maintain per-service incident state. This ensures that log aggregation is consistent and race-condition-free, even in a globally distributed environment.
-*   **Edge-Native Intelligence:** Logic and AI inference occur within the same Cloudflare data center as the incoming logs, eliminating cross-region egress latency.
-*   **Type-Strict Infrastructure:** Built with strict TypeScript contracts (no `any`), mirroring the rigor of production-grade systems engineering.
+
+- **Atomic State Coordination:** Uses **Durable Objects** to maintain per-service incident state. This ensures that log aggregation is consistent and race-condition-free, even in a globally distributed environment.
+- **Edge-Native Intelligence:** Logic and AI inference occur within the same Cloudflare data center as the incoming logs, eliminating cross-region egress latency.
+- **Type-Strict Infrastructure:** Built with strict TypeScript contracts (no `any`), mirroring the rigor of production-grade systems engineering.
 
 ---
 
@@ -42,6 +44,12 @@ graph TD
 
 ---
 
+## 🛠️ Proof of Concept
+
+The following shows the engine processing an incident in real-time. Aura-Ops receives the raw logs, performs anomaly detection, and triggers the Workers AI Copilot to provide an actionable fix:
+
+![Aura-Ops Test Suite](public/image.png)
+
 ## 🛤️ Roadmap & Future Improvements
 
 Aura-Ops is currently a high-performance PoC. The following architecture upgrades are prioritized:
@@ -54,13 +62,15 @@ Aura-Ops is currently a high-performance PoC. The following architecture upgrade
 ---
 
 ## 📜 System Prompts
+
 We treat AI as a deterministic component. The copilot uses a scoped system prompt to maintain SRE-grade precision:
 
-> *"You are an SRE expert. Analyze these system logs. Identify the root cause and provide one immediate, actionable remediation step. Focus on infrastructure insights, not generic advice."*
+> _"You are an SRE expert. Analyze these system logs. Identify the root cause and provide one immediate, actionable remediation step. Focus on infrastructure insights, not generic advice."_
 
 ---
 
 ## ⚖️ Built with
+
 - **Cloudflare Workers** (Compute)
 - **Durable Objects** (State)
 - **Workers AI** (Inference)
@@ -70,10 +80,11 @@ We treat AI as a deterministic component. The copilot uses a scoped system promp
 Built with a focus on production-readiness, Aura-Ops is designed to be a drop-in component for any modern observability stack, providing real-time incident insights directly at the edge.
 
 ## 🧑‍💻 Contributing
+
 Contributions are welcome! Please fork the repository and submit a pull request with your improvements.
+
 ## 📄 License
+
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Built with love ❤️ by [Saksham Gupta](https://github.com/0xsaksham)
-
-

@@ -14,18 +14,17 @@ export class IncidentDO extends DurableObject<Env> {
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
 
-    if (url.pathname === "/ingest" && request.method === "POST") {
+    // Check if the path starts with /ingest
+    if (url.pathname.startsWith("/ingest") && request.method === "POST") {
       const log = await request.json<LogEntry>();
       this.logs.push({ ...log, timestamp: Date.now() });
 
-      // Prune logs to keep memory footprint low
       if (this.logs.length > 50) this.logs.shift();
 
       const errorLogs = this.logs.filter((l) => l.level === "error");
 
       if (errorLogs.length > 5 && !this.incident) {
         const analysis = await this.analyzeLogs(errorLogs);
-
         this.incident = {
           status: "active",
           count: errorLogs.length,
@@ -37,18 +36,21 @@ export class IncidentDO extends DurableObject<Env> {
       return Response.json({ status: "ok", incident: this.incident });
     }
 
-    if (url.pathname === "/status") {
+    // Check if the path starts with /status
+    if (url.pathname.startsWith("/status")) {
       return Response.json({ logs: this.logs, incident: this.incident });
     }
 
-    return new Response("Not Found", { status: 404 });
+    return new Response("Not Found (Path requested: " + url.pathname + ")", {
+      status: 404,
+    });
   }
 
   private async analyzeLogs(logs: LogEntry[]): Promise<string> {
     const prompt = `Analyze these system logs: ${JSON.stringify(logs)}. Provide a 1-sentence root cause and a 1-sentence fix.`;
 
     // AI is now strictly typed via our Env interface
-    const result = await this.env.AI.run("@cf/meta/llama-3.3-70b-instruct", {
+    const result = await this.env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
       prompt,
     });
 

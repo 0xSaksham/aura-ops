@@ -9,9 +9,9 @@ const app = new Hono<{
 
 app.get("/health", (c) => c.text("OK"));
 
-app.post("/ingest/:service", async (c) => {
+app.post("/ingest/:service*", async (c) => {
   const service = c.req.param("service");
-  const id = c.env.INCIDENT_ENGINE.idFromName(service);
+  const id = c.env.INCIDENT_ENGINE.idFromName('service');
   const stub = c.env.INCIDENT_ENGINE.get(id);
   return await stub.fetch(c.req.raw);
 });
