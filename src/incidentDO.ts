@@ -14,6 +14,17 @@ export class IncidentDO extends DurableObject<Env> {
   async fetch(request: Request): Promise<Response> {
     const url = new URL(request.url);
 
+    if (url.pathname.startsWith("/chat") && request.method === "POST") {
+      const { message } = await request.json<{ message: string }>();
+      const context = JSON.stringify(this.logs.slice(-10));
+
+      const response = await this.env.AI.run("@cf/meta/llama-3.1-8b-instruct", {
+        prompt: `Context: ${context}\n\nUser Question: ${message}\n\n Answer as an SRE assistant. Help the user understand the current system state.`,
+      });
+
+      return Response.json({ response: response.response });
+    }
+
     // Check if the path starts with /ingest
     if (url.pathname.startsWith("/ingest") && request.method === "POST") {
       const log = await request.json<LogEntry>();
