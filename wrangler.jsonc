@@ -1,0 +1,23 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "aura-ops",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-04-14",
+  "ai": {
+    "binding": "AI",
+  },
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "INCIDENT_ENGINE",
+        "class_name": "IncidentDO",
+      },
+    ],
+  },
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_classes": ["IncidentDO"],
+    },
+  ],
+}
