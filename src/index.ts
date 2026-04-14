@@ -1,9 +1,10 @@
 import { Hono } from "hono";
 import { IncidentDO } from "./incidentDO";
+import { Env } from "./types";
 export { IncidentDO };
 
 const app = new Hono<{
-  Bindings: { AI: any; INCIDENT_ENGINE: DurableObjectNamespace };
+  Bindings: Env;
 }>();
 
 app.post("/ingest/:service", async (c) => {
