@@ -7,6 +7,8 @@ const app = new Hono<{
   Bindings: Env;
 }>();
 
+app.get("/health", (c) => c.text("OK"));
+
 app.post("/ingest/:service", async (c) => {
   const service = c.req.param("service");
   const id = c.env.INCIDENT_ENGINE.idFromName(service);
